@@ -1,0 +1,9 @@
+# Videos — demasiado grandes para GitHub
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.webm
+
+# Claude Code
+.claude/

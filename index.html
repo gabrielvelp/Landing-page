@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Si Te Quedas — 6abriel</title>
+  <link rel="icon" href="Canciones/Si Te Quedas/GABRIEL_cover_3000x3000_1.jpg" type="image/jpeg">
+
+  <!-- Decorative serif font — editorial style like the reference poster -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: rgba(45, 212, 191, 0.5);
+      --teal: #2dd4bf;
+      --teal-bright: #99f6e4;
+      --teal-dim: rgba(45, 212, 191, 0.5);
+      --teal-faint: rgba(45, 212, 191, 0.32);
+      --glass-bg: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.11);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.55);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      background: #080808;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Background layers ─────────────────────────────────── */
+    .bg-art {
+      position: fixed;
+      inset: -10%;
+      width: 120%;
+      height: 120%;
+      background-image: url('Canciones/Si Te Quedas/IMG_2021_cuadrado.PNG');
+      background-size: cover;
+      background-position: center;
+      filter: blur(70px) brightness(0.28) saturate(1.6);
+      z-index: 0;
+    }
+
+    /* Teal glow: cold light bleeding from cover art */
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 70% 60% at 50% 55%,
+        rgba(45, 212, 191, 0.10) 0%,
+        rgba(20, 100, 90, 0.05) 45%,
+        transparent 70%
+      );
+      z-index: 1;
+    }
+
+    /* Darkening vignette */
+    .bg-vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 100% 100% at 50% 50%,
+        transparent 30%,
+        rgba(0, 0, 0, 0.5) 100%
+      );
+      z-index: 2;
+    }
+
+    /* ── Main layout ───────────────────────────────────────── */
+    .page {
+      position: relative;
+      z-index: 10;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    /* ── Cover hero — full bleed, fades into background ───── */
+    .cover-hero {
+      position: relative;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .cover-hero-img {
+      width: 100%;
+      aspect-ratio: 1;
+      max-height: 60vh;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+      /* Mask fades bottom + sides → integración total con el fondo */
+      -webkit-mask-image:
+        linear-gradient(to bottom,
+          black 0%, black 38%,
+          rgba(0,0,0,.92) 52%, rgba(0,0,0,.72) 63%,
+          rgba(0,0,0,.42) 74%, rgba(0,0,0,.15) 84%,
+          rgba(0,0,0,.03) 92%, transparent 98%),
+        linear-gradient(to right,
+          transparent 0%, black 12%,
+          black 88%, transparent 100%);
+      -webkit-mask-composite: destination-in;
+      mask-image:
+        linear-gradient(to bottom,
+          black 0%, black 38%,
+          rgba(0,0,0,.92) 52%, rgba(0,0,0,.72) 63%,
+          rgba(0,0,0,.42) 74%, rgba(0,0,0,.15) 84%,
+          rgba(0,0,0,.03) 92%, transparent 98%),
+        linear-gradient(to right,
+          transparent 0%, black 12%,
+          black 88%, transparent 100%);
+      mask-composite: intersect;
+    }
+
+    /* ── Content below the hero ────────────────────────────── */
+    .content {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 24px 72px;
+      gap: 18px;
+      /* Pull content up into the fade zone */
+      margin-top: -220px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Song info ─────────────────────────────────────────── */
+    .song-info {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .label-pre {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(207, 250, 244, 0.85);
+    }
+
+    .song-title {
+      font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      font-size: clamp(2.4rem, 9vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      line-height: 1.02;
+      color: #cffaf4;
+      filter: drop-shadow(0 0 28px rgba(180, 245, 235, 0.35));
+    }
+
+    .artist-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: rgba(207, 250, 244, 0.65);
+    }
+
+    /* ── Countdown ─────────────────────────────────────────── */
+    .countdown-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .countdown-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .countdown {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .cd-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .cd-value {
+      font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      font-size: clamp(2.6rem, 10vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      text-align: center;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: #cffaf4;
+      filter: drop-shadow(0 0 20px rgba(180, 245, 235, 0.35));
+    }
+
+    .cd-label {
+      font-size: 0.52rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal-faint);
+    }
+
+    .cd-sep {
+      font-size: 2.2rem;
+      font-weight: 200;
+      color: var(--teal-faint);
+      padding-top: 2px;
+      line-height: 1;
+    }
+
+    /* ── Platforms ─────────────────────────────────────────── */
+    .platforms-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .platforms-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+    }
+
+    .platform-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 18px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .platform-btn:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+    }
+
+    .platform-btn:active {
+      transform: translateY(0) scale(0.98);
+      filter: brightness(0.9);
+    }
+
+    /* ── Brand colors per platform — solo el nombre ────────── */
+    .btn-spotify    .platform-name { color: #1ED760; }
+    .btn-youtube    .platform-name { color: #ffffff; }
+    .btn-apple      .platform-name { color: #FC3C44; }
+    .btn-amazon     .platform-name { color: #25D1DA; }
+    .btn-deezer     .platform-name { color: #A238FF; }
+
+    .platform-logo {
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+      border-radius: 7px;
+    }
+
+    .platform-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .platform-action {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .platform-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .platform-arrow {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+
+    /* ── Animations ────────────────────────────────────────── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .cover-hero      { animation: fade-in 0.8s ease 0s both; }
+    .song-info       { animation: fade-up 0.65s cubic-bezier(.22,.8,.36,1) 0.2s both; }
+    .countdown-wrap  { animation: fade-up 0.65s cubic-bezier(.22,.8,.36,1) 0.32s both; }
+    .platforms-wrap  { animation: fade-up 0.65s cubic-bezier(.22,.8,.36,1) 0.44s both; }
+
+    /* ── Released state ────────────────────────────────────── */
+    .released-msg {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.02em;
+      padding: 14px 28px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      backdrop-filter: blur(20px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-art"></div>
+  <div class="bg-glow"></div>
+  <div class="bg-vignette"></div>
+
+  <main class="page">
+
+    <!-- Cover hero: full bleed -->
+    <div class="cover-hero">
+      <img class="cover-hero-img" src="Canciones/Si Te Quedas/IMG_2021_cuadrado.PNG" alt="Si Te Quedas — 6abriel">
+    </div>
+
+    <!-- Content overlapping the fade -->
+    <div class="content">
+
+    <!-- Song title -->
+    <div class="song-info">
+      <span class="label-pre">Ya disponible</span>
+      <h1 class="song-title">Si Te Quedas</h1>
+      <p class="artist-name">6abriel</p>
+    </div>
+
+
+    <!-- Streaming platforms -->
+    <div class="platforms-wrap">
+      <p class="platforms-eyebrow">Escúchala en</p>
+
+      <!-- YouTube -->
+      <a class="platform-btn btn-youtube" href="https://music.youtube.com/watch?v=EackJQaYgO8&si=9-T9AaMl3DLScDeI" target="_blank" rel="noopener">
+        <img class="platform-logo" src="YouTube/YouTube_Symbol_10.png" alt="YouTube">
+        <div class="platform-text">
+          <span class="platform-action">Escuchar en</span>
+          <span class="platform-name">YouTube</span>
+        </div>
+        <span class="platform-arrow">›</span>
+      </a>
+
+      <!-- Spotify -->
+      <a class="platform-btn btn-spotify" href="https://open.spotify.com/intl-es/track/2XSmsfxDMnDA5kfLQai7QZ?si=50501fb28f5e4951" target="_blank" rel="noopener">
+        <img class="platform-logo" src="Spotify/Spotify_Symbol_4.png" alt="Spotify">
+        <div class="platform-text">
+          <span class="platform-action">Escuchar en</span>
+          <span class="platform-name">Spotify</span>
+        </div>
+        <span class="platform-arrow">›</span>
+      </a>
+
+      <!-- Apple Music -->
+      <a class="platform-btn btn-apple" href="https://music.apple.com/bo/song/si-te-quedas/6767254626" target="_blank" rel="noopener">
+        <img class="platform-logo" src="Apple_Music/Apple_Music_Symbol_5.png" alt="Apple Music">
+        <div class="platform-text">
+          <span class="platform-action">Escuchar en</span>
+          <span class="platform-name">Apple Music</span>
+        </div>
+        <span class="platform-arrow">›</span>
+      </a>
+
+      <!-- Amazon Music -->
+      <a class="platform-btn btn-amazon" href="https://music.amazon.com/albums/B0GZVWGH5R?marketplaceId=ART4WZ8MWBX2Y&musicTerritory=BO&ref=dm_sh_D5MxKaa78jpTDQ6ZMJlFMEj2m&trackAsin=B0GZVM9HPK" target="_blank" rel="noopener">
+        <span style="display:flex;align-items:center;justify-content:center;width:72px;height:30px;background:#25D1DA;border-radius:7px;flex-shrink:0;overflow:hidden;">
+          <img src="Amazon Music/idLuJM-S7o_1779077313797.png" alt="Amazon Music"
+               style="width:100%;height:100%;object-fit:contain;padding:4px 5px;mix-blend-mode:multiply;">
+        </span>
+        <div class="platform-text">
+          <span class="platform-action">Escuchar en</span>
+          <span class="platform-name">Amazon Music</span>
+        </div>
+        <span class="platform-arrow">›</span>
+      </a>
+
+      <!-- Deezer -->
+      <a class="platform-btn btn-deezer" href="https://link.deezer.com/s/33kXm3Fcb8KBUrLKbIgD4" target="_blank" rel="noopener">
+        <img class="platform-logo" src="Deezer/Deezer_Icon_3.jpeg" alt="Deezer">
+        <div class="platform-text">
+          <span class="platform-action">Escuchar en</span>
+          <span class="platform-name">Deezer</span>
+        </div>
+        <span class="platform-arrow">›</span>
+      </a>
+
+    </div>
+
+    </div><!-- .content -->
+  </main>
+
+
+</body>
+</html>
